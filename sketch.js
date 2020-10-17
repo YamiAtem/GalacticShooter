@@ -27,10 +27,11 @@ var textSprite, textSprite2, textSprite3, textSprite4, textSprite5, textSprite6;
 var textImage1, textImage2, textImage3, textImage4, textImage5, textImage6;
 
 // player and player image
-var player, playerImage;
+var player, playerImage, shot, shotImage, wait, shotGroup;
+wait = false;
 
 // obstacle and obstacle images
-var obstacle, obsImage;
+var obstacle, obsImage, obsGroup;
 
 // score
 var score;
@@ -58,6 +59,12 @@ function preload() {
 
     // load player image
     playerImage = loadImage("./PlayerandObstacleImages/playerImage.png");
+
+    // shot images
+    shotImage = loadImage("./PlayerandObstacleImages/blast.png");
+
+    // load obstacle 1 image
+    obsImage = loadImage("./PlayerandObstacleImages/obsImage.png")
 }
 
 function setup() {
@@ -123,7 +130,13 @@ function setup() {
 
     // adds player image to player
     player.addImage(playerImage)
-    player.scale = 0.1;
+    player.scale = 0.25;
+
+    // obs group
+    obsGroup = new Group;
+
+    // shot group
+    shotGroup = new Group;
 }
 
 function draw() {
@@ -165,7 +178,7 @@ function draw() {
         text("Highscore: " + localStorage["Highscore"], 25, 25);
 
         // player display
-        player.y = 385;
+        player.y = 380;
         player.visible = true;
 
         // player movement
@@ -173,6 +186,20 @@ function draw() {
 
         // spawn obstacle
         spawnEnemies();
+
+        // player shoots
+        if (keyDown("space") && wait === false) {
+            shoot();
+            wait = true;
+            setTimeout(waitTime, 1000);
+        }
+
+        // kill enemy with shot
+        if (shotGroup.isTouching(obsGroup)) {
+            obsGroup.destroyEach();
+            shotGroup.destroyEach();
+            score += 1;
+        }
     } else if (gameState === END) {
 
     }
@@ -241,10 +268,27 @@ function paraReset() {
     howToPlayBackButton1.y = -350;
 }
 
+function shoot() {
+    shot = createSprite(player.x, player.y + -50, 10, 30);
+    shot.velocityY = -3;
+    shot.addImage(shotImage);
+    shot.scale = 0.5;
+
+    shotGroup.add(shot);
+}
+
+function waitTime() {
+    wait = false;
+}
+
 function spawnEnemies() {
     if (frameCount % 120 === 0) {
         obstacle = createSprite(random(10, 390), -10, 10, 10);
         obstacle.velocityY = 3;
+        obstacle.addImage(obsImage);
+        obstacle.scale = 0.35;
         obstacle.lifetime = 200;
+        
+        obsGroup.add(obstacle);
     }
 }
