@@ -120,7 +120,7 @@ function setup() {
 
     // adds player image to player
     player.addImage(playerImage)
-    player.scale = 0.1;
+    player.scale = 0.25;
 }
 
 function draw() {
@@ -166,7 +166,7 @@ function draw() {
         player.visible = true;
 
         // player movement
-        player.x = World.mouseX;
+        player.x = MouseX;
     } else if (gameState === END) {
 
     }
