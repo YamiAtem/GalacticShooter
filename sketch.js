@@ -118,8 +118,9 @@ function setup() {
     player = createSprite(200, -390, 10, 10);
     player.visible = false;
 
-    // adds player image ot player
+    // adds player image to player
     player.addImage(playerImage)
+    player.scale = 0.1;
 }
 
 function draw() {
@@ -164,6 +165,8 @@ function draw() {
         player.y = 390;
         player.visible = true;
 
+        // player movement
+        player.x = World.mouseX;
     } else if (gameState === END) {
 
     }
