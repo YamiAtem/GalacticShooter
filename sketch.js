@@ -29,6 +29,9 @@ var textImage1, textImage2, textImage3, textImage4, textImage5, textImage6;
 // player and player image
 var player, playerImage;
 
+// obstacle and obstacle images
+var obstacle, obsImage;
+
 // score
 var score;
 score = 0;
@@ -120,7 +123,7 @@ function setup() {
 
     // adds player image to player
     player.addImage(playerImage)
-    player.scale = 0.25;
+    player.scale = 0.1;
 }
 
 function draw() {
@@ -162,11 +165,14 @@ function draw() {
         text("Highscore: " + localStorage["Highscore"], 25, 25);
 
         // player display
-        player.y = 390;
+        player.y = 385;
         player.visible = true;
 
         // player movement
-        player.x = MouseX;
+        player.x = mouseX;
+
+        // spawn obstacle
+        spawnEnemies();
     } else if (gameState === END) {
 
     }
@@ -233,4 +239,12 @@ function paraReset() {
 
     howToPlayBackButton1.visible = false;
     howToPlayBackButton1.y = -350;
+}
+
+function spawnEnemies() {
+    if (frameCount % 120 === 0) {
+        obstacle = createSprite(random(10, 390), -10, 10, 10);
+        obstacle.velocityY = 3;
+        obstacle.lifetime = 200;
+    }
 }
