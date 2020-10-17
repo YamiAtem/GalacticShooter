@@ -52,6 +52,9 @@ function preload() {
     textImage4 = loadImage("./textImages/textImage4.png");
     textImage5 = loadImage("./textImages/textImage5.png");
     textImage6 = loadImage("./textImages/textImage6.png");
+
+    // load player image
+    playerImage = loadImage("./PlayerandObstacleImages/playerImage.png");
 }
 
 function setup() {
@@ -114,6 +117,9 @@ function setup() {
     // player
     player = createSprite(200, -390, 10, 10);
     player.visible = false;
+
+    // adds player image ot player
+    player.addImage(playerImage)
 }
 
 function draw() {
